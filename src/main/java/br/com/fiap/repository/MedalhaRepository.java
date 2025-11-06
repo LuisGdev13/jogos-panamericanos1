@@ -6,10 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MedalhaRepository {
     private Connection con = (new ConnectionFactory()).getConnection();
-        public MedalhaRepository() throws SQLException {
+
+    public MedalhaRepository() throws SQLException {
         }
 
         public void registrar(Medalha medalha) throws SQLException {
@@ -33,15 +36,66 @@ public class MedalhaRepository {
 
         }
 
-    public void alterarPremiacao(String modalidade, String submodalidade, String genero, Medalha novaMedalha ) throws SQLException {
-        String sql = "UPDATE ch_consultas SET status_consulta = ? WHERE id = ?";
+    public List<Medalha> listarTodos() throws SQLException {
+        List<Medalha> medalhas = new ArrayList<>();
 
-        try (PreparedStatement pstmt = this.con.prepareStatement(sql)) {
-            pstmt.setString(1, novaMedalha.getModalidade());
+        String sql = "SELECT medalha_id, modalidade, submodalidade, genero, tipo, pais FROM medalha";
 
+        try (PreparedStatement pstmt = this.con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
-            pstmt.executeUpdate();
+            while (rs.next()) {
+
+                Medalha medalha = new Medalha();
+                medalha.setId(rs.getInt("medalha_id"));
+                medalha.setModalidade(rs.getString("modalidade"));
+                medalha.setSubmodalidade(rs.getString("submodalidade"));
+                medalha.setGenero(rs.getString("genero"));
+                medalha.setTipo(rs.getString("tipo"));
+                medalha.setPais(rs.getString("pais"));
+
+                medalhas.add(medalha);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar medalhas: " + e.getMessage());
+            throw e;
         }
 
+        return medalhas;
     }
+
+
+    public void alterarPremiacao(String modalidade, String submodalidade, String genero, Medalha novaMedalha) throws SQLException {
+        String sql = """
+        UPDATE medalha
+        SET tipo = ?
+        WHERE modalidade = ? AND submodalidade = ? AND genero = ?
+    """;
+
+        try (PreparedStatement pstmt = this.con.prepareStatement(sql)) {
+            pstmt.setString(1, novaMedalha.getTipo());
+            pstmt.setString(2, modalidade);
+            pstmt.setString(3, submodalidade);
+            pstmt.setString(4, genero);
+
+            int linhasAfetadas = pstmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println(" Premiação atualizada com sucesso!");
+            } else {
+                System.out.println(" Nenhum registro encontrado para atualizar.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar premiação: " + e.getMessage());
+            throw e;
+        }
     }
+
+}
+
+
+
+
+
+

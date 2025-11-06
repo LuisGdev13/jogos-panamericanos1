@@ -3,15 +3,15 @@ package br.com.fiap.util;
 import br.com.fiap.model.Medalha;
 
 public class QuadroTO {
-    private Medalha modalidade;
-    private Medalha submodalidade;
+    private String modalidade;
+    private String submodalidade;
     private Integer colocacao;
-    private Medalha pais;
-    private String ouro;
-    private String prata;
-    private String bronze;
+    private String pais;
+    private Integer ouro;
+    private Integer prata;
+    private Integer bronze;
 
-    public QuadroTO(Medalha modalidade, Medalha submodalidade, Integer colocacao, Medalha pais, String ouro, String prata, String bronze) {
+    public QuadroTO(String modalidade, String submodalidade, Integer colocacao, String pais, Integer ouro, Integer prata, Integer bronze) {
         this.modalidade = modalidade;
         this.submodalidade = submodalidade;
         this.colocacao = colocacao;
@@ -21,19 +21,19 @@ public class QuadroTO {
         this.bronze = bronze;
     }
 
-    public Medalha getModalidade() {
+    public String getModalidade() {
         return modalidade;
     }
 
-    public void setModalidade(Medalha modalidade) {
+    public void setModalidade(String modalidade) {
         this.modalidade = modalidade;
     }
 
-    public Medalha getSubmodalidade() {
+    public String getSubmodalidade() {
         return submodalidade;
     }
 
-    public void setSubmodalidade(Medalha submodalidade) {
+    public void setSubmodalidade(String submodalidade) {
         this.submodalidade = submodalidade;
     }
 
@@ -45,35 +45,35 @@ public class QuadroTO {
         this.colocacao = colocacao;
     }
 
-    public Medalha getPais() {
+    public String getPais() {
         return pais;
     }
 
-    public void setPais(Medalha pais) {
+    public void setPais(String pais) {
         this.pais = pais;
     }
 
-    public String getOuro() {
+    public Integer getOuro() {
         return ouro;
     }
 
-    public void setOuro(String ouro) {
+    public void setOuro(Integer ouro) {
         this.ouro = ouro;
     }
 
-    public String getPrata() {
+    public Integer getPrata() {
         return prata;
     }
 
-    public void setPrata(String prata) {
+    public void setPrata(Integer prata) {
         this.prata = prata;
     }
 
-    public String getBronze() {
+    public Integer getBronze() {
         return bronze;
     }
 
-    public void setBronze(String bronze) {
+    public void setBronze(Integer bronze) {
         this.bronze = bronze;
     }
 }
