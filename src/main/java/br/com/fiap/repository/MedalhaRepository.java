@@ -10,21 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedalhaRepository {
-    private Connection con = (new ConnectionFactory()).getConnection();
+    private Connection conn = (new ConnectionFactory()).getConnection();
 
     public MedalhaRepository() throws SQLException {
         }
 
         public void registrar(Medalha medalha) throws SQLException {
-            String sql = "INSERT INTO medalha (medalha_id, modalidade, submodalidade, genero, tipo, pais ) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO medalha (modalidade, submodalidade, genero, tipo, pais ) VALUES (?, ?, ?, ?, ?, ?)";
 
-            try (PreparedStatement pstmt = this.con.prepareStatement(sql, new String[]{"id"})) {
-                pstmt.setLong(1, medalha.getId());
+            try (PreparedStatement pstmt = this.conn.prepareStatement(sql, new String[]{"id"})) {
                 pstmt.setString(2, medalha.getModalidade());
                 pstmt.setString(3, medalha.getSubmodalidade());
                 pstmt.setString(4, medalha.getGenero());
                 pstmt.setString(5, medalha.getTipo());
-                pstmt.setString(5, medalha.getPais());
+                pstmt.setString(6, medalha.getPais());
                 pstmt.executeUpdate();
 
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -33,15 +32,14 @@ public class MedalhaRepository {
                     }
                 }
             }
-
         }
 
     public List<Medalha> listarTodos() throws SQLException {
         List<Medalha> medalhas = new ArrayList<>();
 
-        String sql = "SELECT medalha_id, modalidade, submodalidade, genero, tipo, pais FROM medalha";
+        String sql = "SELECT modalidade, submodalidade, genero, tipo, pais FROM medalha";
 
-        try (PreparedStatement pstmt = this.con.prepareStatement(sql);
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
@@ -73,7 +71,7 @@ public class MedalhaRepository {
         WHERE modalidade = ? AND submodalidade = ? AND genero = ?
     """;
 
-        try (PreparedStatement pstmt = this.con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, novaMedalha.getTipo());
             pstmt.setString(2, modalidade);
             pstmt.setString(3, submodalidade);
@@ -92,10 +90,12 @@ public class MedalhaRepository {
         }
     }
 
+    public void alterarPremiacao(Medalha medalha) {
+    }
+
+    public List<Medalha> buscarPorModalidade(String modalidade) {
+        return null;
+    }
 }
-
-
-
-
 
 

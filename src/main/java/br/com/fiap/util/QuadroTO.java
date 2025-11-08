@@ -1,6 +1,6 @@
 package br.com.fiap.util;
 
-import br.com.fiap.model.Medalha;
+import br.com.fiap.util.QuadroTO;
 
 public class QuadroTO {
     private String modalidade;
